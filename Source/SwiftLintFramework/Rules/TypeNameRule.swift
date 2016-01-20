@@ -12,9 +12,9 @@ import SwiftXPC
 public struct TypeNameRule: ASTRule, ConfigurationProviderRule {
 
     public var configuration = MinMaxConfiguration(minWarning: 3,
-                                                   minError: 2,
+                                                   minError: 0,
                                                    maxWarning: 40,
-                                                   maxError: 100)
+                                                   maxError: 1000)
 
     public init() {}
 
@@ -75,11 +75,11 @@ public struct TypeNameRule: ASTRule, ConfigurationProviderRule {
     }
 
     private func violationSeverity(forLength length: Int) -> ViolationSeverity? {
-        if length <= configuration.min.error.value ||
-           length >= configuration.max.error.value {
+        if length < configuration.min.error.value ||
+           length > configuration.max.error.value {
             return .Error
-        } else if length <= configuration.min.warning.value ||
-                  length >= configuration.max.warning.value {
+        } else if length < configuration.min.warning.value ||
+                  length > configuration.max.warning.value {
             return .Warning
         } else {
             return nil
