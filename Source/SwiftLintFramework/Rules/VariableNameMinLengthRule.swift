@@ -13,7 +13,7 @@ public struct VariableNameMinLengthRule: ASTRule, ConfigurableRule {
 
     public init() { }
 
-    public init?(config: AnyObject) {
+    public init(config: AnyObject) throws {
         self.init()
         if let config = [Int].arrayOf(config) where !config.isEmpty {
             warning = RuleParameter(severity: .Warning, value: config[0])
@@ -31,7 +31,7 @@ public struct VariableNameMinLengthRule: ASTRule, ConfigurableRule {
                 self.excluded = excluded
             }
         } else {
-            return nil
+            throw ConfigurationError.UnknownConfiguration
         }
     }
 
