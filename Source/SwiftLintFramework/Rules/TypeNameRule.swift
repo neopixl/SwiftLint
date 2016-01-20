@@ -11,10 +11,10 @@ import SwiftXPC
 
 public struct TypeNameRule: ASTRule, ConfigurationProviderRule {
 
-    public var configuration = NameConfig(minWarning: 3,
-                                          minError: 0,
-                                          maxWarning: 40,
-                                          maxError: 1000)
+    public var configuration = NameConfig(minLengthWarning: 3,
+                                          minLengthError: 0,
+                                          maxLengthWarning: 40,
+                                          maxLengthError: 1000)
 
     public init() {}
 
@@ -67,19 +67,19 @@ public struct TypeNameRule: ASTRule, ConfigurationProviderRule {
                 return [StyleViolation(ruleDescription: self.dynamicType.description,
                     severity: severity,
                     location: location,
-                    reason: "Type name should be between \(configuration.minThreshold) and " +
-                            "\(configuration.maxThreshold) characters long: '\(name)'")]
+                    reason: "Type name should be between \(configuration.minLengthThreshold) and " +
+                            "\(configuration.maxLengthThreshold) characters long: '\(name)'")]
             }
         }
         return []
     }
 
     private func violationSeverity(forLength length: Int) -> ViolationSeverity? {
-        if length < configuration.min.error.value ||
-           length > configuration.max.error.value {
+        if length < configuration.minLength.error.value ||
+           length > configuration.maxLength.error.value {
             return .Error
-        } else if length < configuration.min.warning.value ||
-                  length > configuration.max.warning.value {
+        } else if length < configuration.minLength.warning.value ||
+                  length > configuration.maxLength.warning.value {
             return .Warning
         } else {
             return nil
