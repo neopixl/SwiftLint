@@ -77,7 +77,7 @@ public struct FunctionBodyLengthRule: ASTRule, ConfigurationProviderRule {
             let endLine = file.contents.lineAndCharacterForByteOffset(bodyOffset + bodyLength)
 
             if let startLine = startLine?.line, let endLine = endLine?.line {
-                for parameter in [configuration.error, configuration.warning] {
+                for parameter in configuration.params {
                     let (exceedsLineCount, lineCount) = exceedsLineCountExcludingComments(file,
                                                                 startLine, endLine, parameter.value)
                     if exceedsLineCount {

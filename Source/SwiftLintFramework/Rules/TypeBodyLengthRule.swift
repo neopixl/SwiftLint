@@ -33,7 +33,7 @@ public struct TypeBodyLengthRule: ASTRule, ConfigurationProviderRule {
             let location = Location(file: file, byteOffset: offset)
             let startLine = file.contents.lineAndCharacterForByteOffset(bodyOffset)
             let endLine = file.contents.lineAndCharacterForByteOffset(bodyOffset + bodyLength)
-            for parameter in [configuration.error, configuration.warning] {
+            for parameter in configuration.params {
                 if let startLine = startLine?.line, let endLine = endLine?.line
                     where endLine - startLine > parameter.value {
                         return [StyleViolation(ruleDescription: self.dynamicType.description,
