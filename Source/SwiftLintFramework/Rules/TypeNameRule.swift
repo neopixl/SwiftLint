@@ -68,7 +68,7 @@ public struct TypeNameRule: ASTRule, ConfigurationProviderRule {
                     severity: severity,
                     location: location,
                     reason: "Type name should be between \(configuration.minThreshold) and " +
-                            "\(configuration.maxThreshold) characters in length: '\(name)'")]
+                            "\(configuration.maxThreshold) characters long: '\(name)'")]
             }
         }
         return []
