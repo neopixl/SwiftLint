@@ -38,7 +38,7 @@ public struct TypeBodyLengthRule: ASTRule, ConfigurationProviderRule {
                     where endLine - startLine > parameter.value {
                         return [StyleViolation(ruleDescription: self.dynamicType.description,
                             severity: parameter.severity, location: location,
-                            reason: "Type body should span \(configuration.warning.value) lines " +
+                            reason: "Type body should span \(configuration.warning) lines " +
                             "or less: currently spans \(endLine - startLine) lines")]
                 }
             }
