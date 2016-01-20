@@ -9,9 +9,8 @@
 import SourceKittenFramework
 import SwiftXPC
 
-public struct FunctionBodyLengthRule: ASTRule, ViolationLevelRule {
-    public var warning = RuleParameter(severity: .Warning, value: 40)
-    public var error = RuleParameter(severity: .Error, value: 100)
+public struct FunctionBodyLengthRule: ASTRule, ConfigurationProviderRule {
+    public var configuration = RuleLevelsConfig(warning: 40, error: 100)
 
     public init() {}
 
@@ -78,7 +77,7 @@ public struct FunctionBodyLengthRule: ASTRule, ViolationLevelRule {
             let endLine = file.contents.lineAndCharacterForByteOffset(bodyOffset + bodyLength)
 
             if let startLine = startLine?.line, let endLine = endLine?.line {
-                for parameter in [error, warning] {
+                for parameter in [configuration.error, configuration.warning] {
                     let (exceedsLineCount, lineCount) = exceedsLineCountExcludingComments(file,
                                                                 startLine, endLine, parameter.value)
                     if exceedsLineCount {

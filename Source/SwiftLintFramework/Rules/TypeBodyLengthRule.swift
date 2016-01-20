@@ -9,9 +9,8 @@
 import SourceKittenFramework
 import SwiftXPC
 
-public struct TypeBodyLengthRule: ASTRule, ViolationLevelRule {
-    public var warning = RuleParameter(severity: .Warning, value: 200)
-    public var error = RuleParameter(severity: .Error, value: 350)
+public struct TypeBodyLengthRule: ASTRule, ConfigurationProviderRule {
+    public var configuration = RuleLevelsConfig(warning: 200, error: 350)
 
     public init() {}
 
@@ -34,12 +33,12 @@ public struct TypeBodyLengthRule: ASTRule, ViolationLevelRule {
             let location = Location(file: file, byteOffset: offset)
             let startLine = file.contents.lineAndCharacterForByteOffset(bodyOffset)
             let endLine = file.contents.lineAndCharacterForByteOffset(bodyOffset + bodyLength)
-            for parameter in [error, warning] {
+            for parameter in [configuration.error, configuration.warning] {
                 if let startLine = startLine?.line, let endLine = endLine?.line
                     where endLine - startLine > parameter.value {
                         return [StyleViolation(ruleDescription: self.dynamicType.description,
                             severity: parameter.severity, location: location,
-                            reason: "Type body should span \(warning.value) lines " +
+                            reason: "Type body should span \(configuration.warning.value) lines " +
                             "or less: currently spans \(endLine - startLine) lines")]
                 }
             }
