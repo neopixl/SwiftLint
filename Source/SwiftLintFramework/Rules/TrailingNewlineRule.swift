@@ -25,7 +25,9 @@ extension String {
     }
 }
 
-public struct TrailingNewlineRule: CorrectableRule {
+public struct TrailingNewlineRule: CorrectableRule, ConfigProviderRule {
+
+    public var config = SeverityConfig(.Warning)
 
     public init() {}
 
@@ -52,6 +54,7 @@ public struct TrailingNewlineRule: CorrectableRule {
             return []
         }
         return [StyleViolation(ruleDescription: self.dynamicType.description,
+            severity: config.severity,
             location: Location(file: file.path, line: max(file.lines.count, 1)))]
     }
 

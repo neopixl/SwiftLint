@@ -9,7 +9,9 @@
 import SourceKittenFramework
 import SwiftXPC
 
-public struct NestingRule: ASTRule {
+public struct NestingRule: ASTRule, ConfigProviderRule {
+
+    public var config = SeverityConfig(.Warning)
 
     public init() {}
 
@@ -44,10 +46,11 @@ public struct NestingRule: ASTRule {
             let location = Location(file: file, byteOffset: offset)
             if level > 1 && typeKinds.contains(kind) {
                 violations.append(StyleViolation(ruleDescription: self.dynamicType.description,
-                    location: location, reason: "Types should be nested at most 1 level deep"))
+                    severity: config.severity, location: location,
+                    reason: "Types should be nested at most 1 level deep"))
             } else if level > 5 {
                 violations.append(StyleViolation(ruleDescription: self.dynamicType.description,
-                    location: location,
+                    severity: config.severity, location: location,
                     reason: "Statements should be nested at most 5 levels deep"))
             }
         }
